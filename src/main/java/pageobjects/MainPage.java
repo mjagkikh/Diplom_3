@@ -15,7 +15,7 @@ public class MainPage {
     private final By makeOrderButton = By.xpath(".//button[text()='Оформить заказ']");
     private final By loginButtonOnMainPage = By.xpath(".//button[text()='Войти в аккаунт']");
 
-    private final By personalAccountButtonOnMainPage = By.xpath(".//button[text()='Войти в аккаунт']");
+    private final By accountButtonOnMainPage = By.xpath(".//a[@href='/account']");
 
 
     public MainPage(WebDriver driver) {
@@ -27,7 +27,7 @@ public class MainPage {
         driver.get(MAIN_PAGE_URL);
     }
 
-    @Step("Get text from order button on MainPage")
+    @Step("Get text from order button on main page")
     public String textOrderButton () {
         WebElement textButton = new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOfElementLocated(makeOrderButton));
         return textButton.getText();
@@ -37,7 +37,8 @@ public class MainPage {
         driver.findElement(loginButtonOnMainPage).click();
     }
 
-    public void clickOnPersonalAccount() {
-        driver.findElement(personalAccountButtonOnMainPage).click();
+    @Step("Click on account button on main page")
+    public void clickOnAccountButton() {
+        driver.findElement(accountButtonOnMainPage).click();
     }
 }

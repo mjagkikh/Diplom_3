@@ -45,18 +45,18 @@ public class AuthTest {
 
     @Test
     @DisplayName("Authentication from personal account page")
-    public void authFromPersonalAccountTest() {
+    public void authFromAccountTest() {
         mainPage = new MainPage(factory.getDriver());
         mainPage.open();
-        mainPage.clickOnPersonalAccount();
+        mainPage.clickOnAccountButton();
         authPage = new AuthPage(factory.getDriver());
         authPage.auth(email, password);
         assertEquals("Оформить заказ", mainPage.textOrderButton());
     }
 
     @Test
-    @DisplayName("Authentication from register page")
-    public void authFromRegisterPageTest() {
+    @DisplayName("Authentication from registration page")
+    public void authFromRegistrationPageTest() {
         registrationPage.open();
         registrationPage.clickOnLoginButton();
         authPage = new AuthPage(factory.getDriver());

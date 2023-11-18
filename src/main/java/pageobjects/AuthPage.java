@@ -19,7 +19,7 @@ public class AuthPage {
     public AuthPage(WebDriver driver) {
         this.driver = driver;
     }
-    @Step("Enter email & password for login and click button")
+    @Step("Enter email & password for authentication and click login button")
     public void auth(String email, String password) {
         try{
             Thread.sleep(1000);
@@ -40,5 +40,11 @@ public class AuthPage {
         new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.elementToBeClickable(forgotPasswordButton));
         driver.findElement(forgotPasswordButton).click();
         driver.findElement(logButtonFromForgotPassword).click();
+    }
+
+    @Step ("Check login button on authentication page")
+    public String checkLogInButton() {
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.elementToBeClickable(loginButton));
+        return driver.findElement(loginButton).getText();
     }
 }
