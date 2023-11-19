@@ -3,7 +3,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.MainPage;
-
 import static org.junit.Assert.assertTrue;
 
 public class ConstructorTest {

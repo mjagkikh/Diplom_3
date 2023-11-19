@@ -6,18 +6,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 
 public class RegistrationPage {
     WebDriver driver;
     private static final String REGISTRATION_URL = "https://stellarburgers.nomoreparties.site/register";
-    private static final By nameField = By.xpath(".//div[label[text()='Имя']]/input");
-    private static final By emailField = By.xpath(".//div[label[text()='Email']]/input");
-    private static final By passwordField = By.xpath(".//div[label[text()='Пароль']]/input");
-    private static final By registrationButton = By.xpath(".//button[text()='Зарегистрироваться']");
-    private static final By errorPasswordMessage = By.xpath((".//p[text()='Некорректный пароль']"));
-    private static final By loginButton = By.xpath((".//a[@href='/login']"));
+    private final By nameField = By.xpath(".//div[label[text()='Имя']]/input");
+    private final By emailField = By.xpath(".//div[label[text()='Email']]/input");
+    private final By passwordField = By.xpath(".//div[label[text()='Пароль']]/input");
+    private final By registrationButton = By.xpath(".//button[text()='Зарегистрироваться']");
+    private final By errorPasswordMessage = By.xpath((".//p[text()='Некорректный пароль']"));
+    private final By loginButton = By.xpath((".//a[@href='/login']"));
 
     public RegistrationPage(WebDriver driver) {
         this.driver = driver;

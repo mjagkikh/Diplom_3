@@ -4,9 +4,10 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.html5.LocalStorage;
+import org.openqa.selenium.html5.WebStorage;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 
 public class MainPage {
@@ -15,12 +16,10 @@ public class MainPage {
     private final By makeOrderButton = By.xpath(".//button[text()='Оформить заказ']");
     private final By loginButtonOnMainPage = By.xpath(".//button[text()='Войти в аккаунт']");
     private final By accountButtonOnMainPage = By.xpath(".//a[@href='/account']");
-    private final By sauceButtonOnMainPage = By.xpath(".//span[text()='Соусы']");
-    private final By fillingButtonOnMainPage = By.xpath(".//span[text()='Начинки']");
-    private final By bunsButtonOnMainPage = By.xpath(".//span[text()='Булки']");
-    private final By sauceSection = By.xpath(".//h2[text()='Соусы']");
-    private final By fillingSection = By.xpath(".//h2[text()='Начинки']");
-    private final By bunsSection = By.xpath(".//h2[text()='Булки']");
+    private final By sauceButtonOnMainPage = By.xpath(".//div[./span[text()='Соусы']]");
+    private final By fillingButtonOnMainPage = By.xpath(".//div[./span[text()='Начинки']]");
+    private final By bunsButtonOnMainPage = By.xpath(".//div[./span[text()='Булки']]");
+    String accessToken;
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
@@ -49,19 +48,29 @@ public class MainPage {
     @Step("Click sauce button on main page, check sauce")
     public boolean checkSauceIsDisplayed() {
         driver.findElement(sauceButtonOnMainPage).click();
-        return driver.findElement(sauceSection).isDisplayed();
+        return waitForAttributeInClassInLocator(sauceButtonOnMainPage);
     }
 
     @Step("Click filling button on main page")
     public boolean checkFillingIsDisplayed() {
         driver.findElement(fillingButtonOnMainPage).click();
-        return driver.findElement(fillingSection).isDisplayed();
+        return waitForAttributeInClassInLocator(fillingButtonOnMainPage);
     }
 
     @Step("Click buns button on main page")
     public boolean checkBunsIsDisplayed() {
         driver.findElement(sauceButtonOnMainPage).click();
         driver.findElement(bunsButtonOnMainPage).click();
-        return driver.findElement(bunsSection).isDisplayed();
+        return waitForAttributeInClassInLocator(bunsButtonOnMainPage);
+    }
+
+    private Boolean waitForAttributeInClassInLocator(By locator) {
+        return new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.attributeContains(locator, "class", "current"));
+    }
+
+    public String getAccessFromLocalStorage() {
+        new WebDriverWait(driver, Duration.ofSeconds(50)).until(ExpectedConditions.elementToBeClickable(bunsButtonOnMainPage));
+        LocalStorage localStorage = ((WebStorage) driver).getLocalStorage();
+        return accessToken = localStorage.getItem("accessToken");
     }
 }

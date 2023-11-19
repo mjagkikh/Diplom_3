@@ -1,4 +1,5 @@
 import io.qameta.allure.junit4.DisplayName;
+import io.restassured.response.ValidatableResponse;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -6,7 +7,7 @@ import org.junit.Test;
 import pageobjects.AuthPage;
 import pageobjects.MainPage;
 import pageobjects.RegistrationPage;
-
+import pageobjects.RestClient;
 import static org.junit.Assert.assertEquals;
 
 public class AuthTest {
@@ -14,6 +15,8 @@ public class AuthTest {
     RegistrationPage registrationPage;
     AuthPage authPage;
     MainPage mainPage;
+    RestClient restClient = new RestClient();
+    String accessToken;
 
     private String name = RandomStringUtils.randomAlphanumeric(10);
     private String email = RandomStringUtils.randomAlphanumeric(10)+"@ya.ru";
@@ -21,10 +24,8 @@ public class AuthTest {
 
     @Before
     public void setUp() {
-        registrationPage = new RegistrationPage(factory.getDriver());
-        registrationPage.open();
-        registrationPage.fillRegistrationForm(name, email, password);
-        registrationPage.clickOnRegistrationButton();
+        ValidatableResponse response = restClient.createUser(name, email, password);
+        accessToken = restClient.getAccess(response);
     }
 
     @After
@@ -57,6 +58,7 @@ public class AuthTest {
     @Test
     @DisplayName("Authentication from registration page")
     public void authFromRegistrationPageTest() {
+        registrationPage = new RegistrationPage(factory.getDriver());
         registrationPage.open();
         registrationPage.clickOnLoginButton();
         authPage = new AuthPage(factory.getDriver());
@@ -69,6 +71,7 @@ public class AuthTest {
     @DisplayName("Authentication from reset password page")
     public void authFromResetPasswordPageTest() {
         authPage = new AuthPage(factory.getDriver());
+        authPage.open();
         authPage.clickOnForgotPasswordButton();
         authPage.auth(email,password);
         mainPage = new MainPage(factory.getDriver());
