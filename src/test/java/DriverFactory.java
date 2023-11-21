@@ -2,6 +2,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import config.BrowserPath;
 
 import java.time.Duration;
 
@@ -22,7 +23,7 @@ public class DriverFactory {
         ChromeOptions options = new ChromeOptions();
         System.setProperty("webdriver.chrome.driver", "src\\test\\resources\\chromedriver116.exe");
         options.addArguments("--remote-allow-origins=*");
-        options.setBinary("C:\\Users\\Пользователь\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
+        options.setBinary(BrowserPath.Yandex);
         driver = new ChromeDriver(options);
     }
 

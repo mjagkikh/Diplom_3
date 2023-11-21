@@ -31,6 +31,7 @@ public class AuthTest {
     @After
     public void killDriver() {
         factory.killDriver();
+        restClient.delete(accessToken);
     }
 
     @Test

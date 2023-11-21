@@ -47,9 +47,20 @@ public class RegistrationTest {
     @DisplayName("Check error message when password less then 6 characters")
     public void registrationWithErrorTest() {
         String password = "123";
-        registrationPage.open();
-        registrationPage.fillRegistrationForm(name, email,password);
-        registrationPage.clickOnRegistrationButton();
-        assertTrue(registrationPage.getErrorMessage().isDisplayed());
+        try{
+            registrationPage.open();
+            registrationPage.fillRegistrationForm(name, email,password);
+            registrationPage.clickOnRegistrationButton();
+            assertTrue(registrationPage.getErrorMessage().isDisplayed());
+        }
+        catch(Exception exception){
+            AuthPage authPage = new AuthPage(factory.getDriver());
+            authPage.auth(email, password);
+            MainPage mainPage = new MainPage(factory.getDriver());
+            mainPage.checkFillingIsDisplayed();
+            accessToken = mainPage.getAccessFromLocalStorage();
+            restClient.delete(accessToken);
+            assertTrue(registrationPage.getErrorMessage().isDisplayed());
+        }
     }
 }
